@@ -14,10 +14,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar dpg-navbar">
+    <nav className="navbar hotelio-navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          <span className="logo-text">globglob</span>
+          <span className="logo-text">Hotelio</span>
         </Link>
         
         <div className="navbar-right">

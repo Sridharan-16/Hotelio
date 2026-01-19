@@ -41,7 +41,7 @@ const Help = () => {
             <h2>Contact Us</h2>
             <p>If you need further assistance, please contact our support team:</p>
             <ul className="contact-list">
-              <li><strong>Email:</strong> support@dpg.com</li>
+              <li><strong>Email:</strong> support@hotelio.com</li>
               <li><strong>Phone:</strong> +91-1800-XXX-XXXX</li>
               <li><strong>Hours:</strong> Monday - Friday, 9 AM - 6 PM IST</li>
             </ul>

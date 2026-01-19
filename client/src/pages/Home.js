@@ -134,7 +134,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home goibibo-home">
+    <div className="home hotelio-home">
       <div className="home-hero">
         <SearchBar />
       </div>

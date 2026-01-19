@@ -1,6 +1,6 @@
-# Hotel Reservation Platform - MERN Stack
+# Hotelio - Premium Hotel Booking Platform
 
-A modern, full-stack hotel reservation platform built with MongoDB, Express, React, and Node.js, inspired by Goibibo's hotel booking interface.
+A modern, full-stack hotel booking platform built with MongoDB, Express, React, and Node.js - Hotelio offers a seamless hotel reservation experience.
 
 ## Features
 
@@ -34,7 +34,7 @@ A modern, full-stack hotel reservation platform built with MongoDB, Express, Rea
 ## Project Structure
 
 ```
-hotel-reservation-platform/
+hotelio/
 ├── server/
 │   ├── models/
 │   │   ├── Hotel.js

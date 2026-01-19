@@ -1,4 +1,4 @@
-.goibibo-search-container {
+.hotelio-search-container {
   background: white;
   border-radius: 8px;
   padding: 32px;
@@ -15,27 +15,27 @@
   text-align: center;
 }
 
-.goibibo-search-bar {
+.hotelio-search-bar {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.2fr auto;
   gap: 16px;
   align-items: end;
 }
 
-.goibibo-field {
+.hotelio-field {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.goibibo-field label {
+.hotelio-field label {
   font-size: 12px;
   font-weight: 500;
   color: #666;
   text-transform: uppercase;
 }
 
-.goibibo-input {
+.hotelio-input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
@@ -45,7 +45,7 @@
   transition: border-color 0.3s ease;
 }
 
-.goibibo-input:focus {
+.hotelio-input:focus {
   border-color: #ff5722;
 }
 
@@ -126,7 +126,7 @@
   border-color: #ff5722;
 }
 
-.goibibo-guest-selector {
+.hotelio-guest-selector {
   position: fixed;
   left: 50%;
   top: 120px;
@@ -199,16 +199,16 @@
   align-self: end;
 }
 
-.goibibo-search-btn:hover {
+.hotelio-search-btn:hover {
   background: #e64a19;
 }
 
 @media (max-width: 968px) {
-  .goibibo-search-bar {
+  .hotelio-search-bar {
     grid-template-columns: 1fr;
   }
 
-  .goibibo-search-btn {
+  .hotelio-search-btn {
     width: 100%;
   }
 

@@ -48,21 +48,21 @@ const SearchBar = ({ initialData = {} }) => {
   const maxCheckOut = checkIn ? new Date(checkIn.getTime() + 30 * 24 * 60 * 60 * 1000) : null;
 
   return (
-    <div className="goibibo-search-container">
+    <div className="hotelio-search-container">
       <h2 className="search-title">Book Hotels and Homestays</h2>
-      <form onSubmit={handleSearch} className="goibibo-search-bar">
-        <div className="search-field goibibo-field">
+      <form onSubmit={handleSearch} className="hotelio-search-bar">
+        <div className="search-field hotelio-field">
           <label>Where to</label>
           <input
             type="text"
             placeholder="e.g. - Area, Landmark or Property Name"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="goibibo-input"
+            className="hotelio-input"
           />
         </div>
 
-        <div className="search-field goibibo-field date-field">
+        <div className="search-field hotelio-field date-field">
           <label>Check-in</label>
           <div className="date-display" onClick={() => setShowDatePicker('checkin')}>
             {checkIn ? (
@@ -93,7 +93,7 @@ const SearchBar = ({ initialData = {} }) => {
           )}
         </div>
 
-        <div className="search-field goibibo-field date-field">
+        <div className="search-field hotelio-field date-field">
           <label>Check-out</label>
           <div className="date-display" onClick={() => setShowDatePicker('checkout')}>
             {checkOut ? (
@@ -125,7 +125,7 @@ const SearchBar = ({ initialData = {} }) => {
           )}
         </div>
 
-        <div className="search-field goibibo-field guest-field">
+        <div className="search-field hotelio-field guest-field">
           <label>Guests & Rooms</label>
           <div
             className="guest-display"
@@ -135,7 +135,7 @@ const SearchBar = ({ initialData = {} }) => {
             <FaChevronDown className="chevron-icon" />
           </div>
           {showGuestSelector && (
-            <div className="guest-selector goibibo-guest-selector">
+            <div className="guest-selector hotelio-guest-selector">
               <div className="guest-option">
                 <label>Adults</label>
                 <div className="guest-controls">
@@ -200,7 +200,7 @@ const SearchBar = ({ initialData = {} }) => {
           )}
         </div>
 
-        <button type="submit" className="goibibo-search-btn">
+        <button type="submit" className="hotelio-search-btn">
           SEARCH
         </button>
       </form>

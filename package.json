@@ -1,7 +1,7 @@
 {
-  "name": "hotel-reservation-platform",
+  "name": "hotelio",
   "version": "1.0.0",
-  "description": "Digital Hotel Reservation Platform - MERN Stack",
+  "description": "Hotelio - Premium Hotel Booking Platform - MERN Stack",
   "main": "server/index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -11,7 +11,7 @@
     "install-client": "cd client && npm install",
     "install-all": "npm run install-server && npm run install-client"
   },
-  "keywords": ["hotel", "booking", "mern", "reservation"],
+  "keywords": ["hotelio", "hotel", "booking", "mern", "reservation"],
   "author": "",
   "license": "ISC",
   "devDependencies": {
