@@ -1,0 +1,219 @@
+.goibibo-search-container {
+  background: white;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 32px auto;
+  max-width: 1200px;
+}
+
+.search-title {
+  color: #ff5722;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.goibibo-search-bar {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.2fr auto;
+  gap: 16px;
+  align-items: end;
+}
+
+.goibibo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goibibo-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.goibibo-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.goibibo-input:focus {
+  border-color: #ff5722;
+}
+
+.date-field {
+  position: relative;
+}
+
+.date-display {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 48px;
+  justify-content: center;
+  transition: border-color 0.3s ease;
+  position: relative;
+}
+
+.date-display:hover {
+  border-color: #ff5722;
+}
+
+.date-main {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.date-day {
+  font-size: 12px;
+  color: #666;
+}
+
+.date-placeholder {
+  font-size: 14px;
+  color: #999;
+}
+
+.chevron-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 12px;
+}
+
+.date-picker-wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+}
+
+.guest-display {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.3s ease;
+}
+
+.guest-display:hover {
+  border-color: #ff5722;
+}
+
+.goibibo-guest-selector {
+  position: fixed;
+  left: 50%;
+  top: 120px;
+  transform: translateX(-50%);
+  width: 350px;
+  margin-top: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  z-index: 1000;
+}
+
+.guest-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.guest-option:last-child {
+  margin-bottom: 0;
+}
+
+.guest-option label {
+  font-weight: 500;
+  color: #333;
+  text-transform: none;
+  font-size: 14px;
+}
+
+.guest-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.guest-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.guest-btn:hover {
+  border-color: #ff5722;
+  color: #ff5722;
+}
+
+.goibibo-search-btn {
+  background: #ff5722;
+  color: white;
+  border: none;
+  padding: 12px 48px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  height: fit-content;
+  align-self: end;
+}
+
+.goibibo-search-btn:hover {
+  background: #e64a19;
+}
+
+@media (max-width: 968px) {
+  .goibibo-search-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .goibibo-search-btn {
+    width: 100%;
+  }
+
+  .date-picker-wrapper {
+    left: auto;
+    right: 0;
+  }
+}

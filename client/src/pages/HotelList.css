@@ -1,0 +1,40 @@
+.hotel-list-page {
+  padding: 32px 0;
+  min-height: calc(100vh - 80px);
+}
+
+.hotel-list-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.hotels-grid {
+  display: grid;
+  gap: 24px;
+  height: 400px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.no-results h2 {
+  font-size: 32px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.no-results p {
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 968px) {
+  .hotel-list-content {
+    grid-template-columns: 1fr;
+  }
+}
+
