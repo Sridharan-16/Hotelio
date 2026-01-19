@@ -84,6 +84,10 @@ const Login = () => {
             </button>
           </form>
 
+          <div className="forgot-password">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
+
           <p className="auth-footer">
             Don't have an account? <Link to="/register">Sign up</Link>
           </p>

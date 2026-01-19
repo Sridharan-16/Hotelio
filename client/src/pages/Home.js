@@ -138,48 +138,8 @@ const Home = () => {
       <div className="home-hero">
         <SearchBar />
       </div>
-
-      <div className="popular-destinations-section">
-        <div className="container">
-          <h2 className="destinations-title">Popular Destinations</h2>
-          <p className="destinations-subtitle">
-            We have selected some best locations around the world for you.
-          </p>
-          <div className="destinations-grid">
-            {popularDestinations.map((destination, index) => {
-              // Assign dynamic size classes for a quilted/masonry effect
-              let sizeClass = '';
-              if (index % 7 === 0) sizeClass = 'large';
-              else if (index % 7 === 1 || index % 7 === 2) sizeClass = 'tall';
-              else if (index % 7 === 3 || index % 7 === 4) sizeClass = 'wide';
-              // else default
-              return (
-                <div
-                  key={index}
-                  className={`destination-card ${sizeClass}`}
-                  onClick={() => handleDestinationClick(destination.city)}
-                >
-                  <div className="destination-image">
-                    <img
-                      src={destination.image}
-                      alt={destination.name}
-                      onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400';
-                      }}
-                    />
-                    <div className="destination-content">
-                      <h3 className="destination-name">{destination.name}</h3>
-                      <p className="destination-description">{destination.description}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      <div className="offers-section">
+      <div className="home-offers">
+        <div className="offers-section">
         <div className="container">
           <h2 className="offers-title">Offers for you</h2>
           <div className="offers-carousel">
@@ -250,6 +210,48 @@ const Home = () => {
           </div>
         </div>
       </div>
+      </div>
+      <div className="popular-destinations-section">
+        <div className="container">
+          <h2 className="destinations-title">Popular Destinations</h2>
+          <p className="destinations-subtitle">
+            We have selected some best locations around the world for you.
+          </p>
+          <div className="destinations-grid">
+            {popularDestinations.map((destination, index) => {
+              // Assign dynamic size classes for a quilted/masonry effect
+              let sizeClass = '';
+              if (index % 7 === 0) sizeClass = 'large';
+              else if (index % 7 === 1 || index % 7 === 2) sizeClass = 'tall';
+              else if (index % 7 === 3 || index % 7 === 4) sizeClass = 'wide';
+              // else default
+              return (
+                <div
+                  key={index}
+                  className={`destination-card ${sizeClass}`}
+                  onClick={() => handleDestinationClick(destination.city)}
+                >
+                  <div className="destination-image">
+                    <img
+                      src={destination.image}
+                      alt={destination.name}
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400';
+                      }}
+                    />
+                    <div className="destination-content">
+                      <h3 className="destination-name">{destination.name}</h3>
+                      <p className="destination-description">{destination.description}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      
 
       <div className="vacation-categories">
         <div className="container">

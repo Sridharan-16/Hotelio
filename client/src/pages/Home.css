@@ -1,5 +1,7 @@
 .hotelio-home {
-  background: #f5f5f5;
+  /* background: #f5f5f5; */
+  background: #e3f2fd;
+
   min-height: calc(100vh - 80px);
 }
 
@@ -200,10 +202,15 @@
   line-height: 1.6;
   margin: 0;
 }
-
+.home-offers {
+  display: flex;
+  justify-content: center;
+}
 .offers-section {
   background: white;
   padding: 40px 20px;
+  width: 80%;
+  border-radius: 16px;
 }
 
 .container {
