@@ -1,4 +1,5 @@
 .hotelio-search-container {
+  position: relative;
   background: white;
   border-radius: 8px;
   padding: 32px;
@@ -16,12 +17,15 @@
 }
 
 .hotelio-search-bar {
+  display: block;
+}
+.hotelio-search-bar-inner{
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.2fr auto;
+  grid-template-columns: 2fr 1fr 1fr 1.2fr;
   gap: 16px;
   align-items: end;
+  margin-bottom: 24px;
 }
-
 .hotelio-field {
   display: flex;
   flex-direction: column;
@@ -49,7 +53,7 @@
   border-color: #ff5722;
 }
 
-.date-field {
+.guest-field {
   position: relative;
 }
 
@@ -90,8 +94,7 @@
 .chevron-icon {
   position: absolute;
   right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px;
   color: #999;
   font-size: 12px;
 }
@@ -120,6 +123,7 @@
   align-items: center;
   justify-content: space-between;
   transition: border-color 0.3s ease;
+  position: relative;
 }
 
 .guest-display:hover {
@@ -127,12 +131,11 @@
 }
 
 .hotelio-guest-selector {
-  position: fixed;
-  left: 50%;
-  top: 120px;
-  transform: translateX(-50%);
+  position: absolute;
+  top: 100%;
+  left: 0;
   width: 350px;
-  margin-top: 0;
+  margin-top: 8px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -184,27 +187,28 @@
   color: #ff5722;
 }
 
-.goibibo-search-btn {
-  background: #ff5722;
+.hotelio-search-btn {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff5722;
   color: white;
   border: none;
-  padding: 12px 48px;
-  border-radius: 4px;
+  border-radius: 5px;
+  padding: 12px 24px;
   font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  white-space: nowrap;
-  height: fit-content;
-  align-self: end;
+  z-index: 10;
 }
 
 .hotelio-search-btn:hover {
-  background: #e64a19;
+  background-color: #e04e52;
 }
 
 @media (max-width: 968px) {
-  .hotelio-search-bar {
+  .hotelio-search-bar-inner {
     grid-template-columns: 1fr;
   }
 

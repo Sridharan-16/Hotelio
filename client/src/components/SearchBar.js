@@ -51,159 +51,160 @@ const SearchBar = ({ initialData = {} }) => {
     <div className="hotelio-search-container">
       <h2 className="search-title">Book Hotels and Homestays</h2>
       <form onSubmit={handleSearch} className="hotelio-search-bar">
-        <div className="search-field hotelio-field">
-          <label>Where to</label>
-          <input
-            type="text"
-            placeholder="e.g. - Area, Landmark or Property Name"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="hotelio-input"
-          />
-        </div>
+        <div className="hotelio-search-bar-inner">
+          <div className="search-field hotelio-field">
+            <label>Where to</label>
+            <input
+              type="text"
+              placeholder="e.g. - Area, Landmark or Property Name"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="hotelio-input"
+            />
+          </div>
 
-        <div className="search-field hotelio-field date-field">
-          <label>Check-in</label>
-          <div className="date-display" onClick={() => setShowDatePicker('checkin')}>
-            {checkIn ? (
-              <>
-                <div className="date-main">{formatDate(checkIn)}</div>
-                <div className="date-day">{formatDay(checkIn)}</div>
-              </>
-            ) : (
-              <div className="date-placeholder">Select Date</div>
+          <div className="search-field hotelio-field date-field">
+            <label>Check-in</label>
+            <div className="date-display" onClick={() => setShowDatePicker('checkin')}>
+              {checkIn ? (
+                <>
+                  <div className="date-main">{formatDate(checkIn)}</div>
+                  <div className="date-day">{formatDay(checkIn)}</div>
+                </>
+              ) : (
+                <div className="date-placeholder">Select Date</div>
+              )}
+              <FaChevronDown className="chevron-icon" />
+            </div>
+            {showDatePicker === 'checkin' && (
+              <div className="date-picker-wrapper">
+                <DatePicker
+                  selected={checkIn}
+                  onChange={(date) => {
+                    setCheckIn(date);
+                    setShowDatePicker(null);
+                  }}
+                  selectsStart
+                  startDate={checkIn}
+                  endDate={checkOut}
+                  minDate={minDate}
+                  inline
+                />
+              </div>
             )}
-            <FaChevronDown className="chevron-icon" />
           </div>
-          {showDatePicker === 'checkin' && (
-            <div className="date-picker-wrapper">
-              <DatePicker
-                selected={checkIn}
-                onChange={(date) => {
-                  setCheckIn(date);
-                  setShowDatePicker(null);
-                }}
-                selectsStart
-                startDate={checkIn}
-                endDate={checkOut}
-                minDate={minDate}
-                inline
-              />
-            </div>
-          )}
-        </div>
 
-        <div className="search-field hotelio-field date-field">
-          <label>Check-out</label>
-          <div className="date-display" onClick={() => setShowDatePicker('checkout')}>
-            {checkOut ? (
-              <>
-                <div className="date-main">{formatDate(checkOut)}</div>
-                <div className="date-day">{formatDay(checkOut)}</div>
-              </>
-            ) : (
-              <div className="date-placeholder">Select Date</div>
+          <div className="search-field hotelio-field date-field">
+            <label>Check-out</label>
+            <div className="date-display" onClick={() => setShowDatePicker('checkout')}>
+              {checkOut ? (
+                <>
+                  <div className="date-main">{formatDate(checkOut)}</div>
+                  <div className="date-day">{formatDay(checkOut)}</div>
+                </>
+              ) : (
+                <div className="date-placeholder">Select Date</div>
+              )}
+              <FaChevronDown className="chevron-icon" />
+            </div>
+            {showDatePicker === 'checkout' && (
+              <div className="date-picker-wrapper">
+                <DatePicker
+                  selected={checkOut}
+                  onChange={(date) => {
+                    setCheckOut(date);
+                    setShowDatePicker(null);
+                  }}
+                  selectsEnd
+                  startDate={checkIn}
+                  endDate={checkOut}
+                  minDate={checkIn || minDate}
+                  maxDate={maxCheckOut}
+                  inline
+                />
+              </div>
             )}
-            <FaChevronDown className="chevron-icon" />
           </div>
-          {showDatePicker === 'checkout' && (
-            <div className="date-picker-wrapper">
-              <DatePicker
-                selected={checkOut}
-                onChange={(date) => {
-                  setCheckOut(date);
-                  setShowDatePicker(null);
-                }}
-                selectsEnd
-                startDate={checkIn}
-                endDate={checkOut}
-                minDate={checkIn || minDate}
-                maxDate={maxCheckOut}
-                inline
-              />
-            </div>
-          )}
-        </div>
 
-        <div className="search-field hotelio-field guest-field">
-          <label>Guests & Rooms</label>
-          <div
-            className="guest-display"
-            onClick={() => setShowGuestSelector(!showGuestSelector)}
-          >
-            {formatGuestsRooms()}
-            <FaChevronDown className="chevron-icon" />
+          <div className="search-field hotelio-field guest-field">
+            <label>Guests & Rooms</label>
+            <div
+              className="guest-display"
+              onClick={() => setShowGuestSelector(!showGuestSelector)}
+            >
+              {formatGuestsRooms()}
+              <FaChevronDown className="chevron-icon" />
+            </div>
+            {showGuestSelector && (
+              <div className="guest-selector hotelio-guest-selector">
+                <div className="guest-option">
+                  <label>Adults</label>
+                  <div className="guest-controls">
+                    <button
+                      type="button"
+                      onClick={() => setGuests({ ...guests, adults: Math.max(1, guests.adults - 1) })}
+                      className="guest-btn"
+                    >
+                      -
+                    </button>
+                    <span>{guests.adults}</span>
+                    <button
+                      type="button"
+                      onClick={() => setGuests({ ...guests, adults: guests.adults + 1 })}
+                      className="guest-btn"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div className="guest-option">
+                  <label>Children</label>
+                  <div className="guest-controls">
+                    <button
+                      type="button"
+                      onClick={() => setGuests({ ...guests, children: Math.max(0, guests.children - 1) })}
+                      className="guest-btn"
+                    >
+                      -
+                    </button>
+                    <span>{guests.children}</span>
+                    <button
+                      type="button"
+                      onClick={() => setGuests({ ...guests, children: guests.children + 1 })}
+                      className="guest-btn"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div className="guest-option">
+                  <label>Rooms</label>
+                  <div className="guest-controls">
+                    <button
+                      type="button"
+                      onClick={() => setRooms(Math.max(1, rooms - 1))}
+                      className="guest-btn"
+                    >
+                      -
+                    </button>
+                    <span>{rooms}</span>
+                    <button
+                      type="button"
+                      onClick={() => setRooms(rooms + 1)}
+                      className="guest-btn"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-          {showGuestSelector && (
-            <div className="guest-selector hotelio-guest-selector">
-              <div className="guest-option">
-                <label>Adults</label>
-                <div className="guest-controls">
-                  <button
-                    type="button"
-                    onClick={() => setGuests({ ...guests, adults: Math.max(1, guests.adults - 1) })}
-                    className="guest-btn"
-                  >
-                    -
-                  </button>
-                  <span>{guests.adults}</span>
-                  <button
-                    type="button"
-                    onClick={() => setGuests({ ...guests, adults: guests.adults + 1 })}
-                    className="guest-btn"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              <div className="guest-option">
-                <label>Children</label>
-                <div className="guest-controls">
-                  <button
-                    type="button"
-                    onClick={() => setGuests({ ...guests, children: Math.max(0, guests.children - 1) })}
-                    className="guest-btn"
-                  >
-                    -
-                  </button>
-                  <span>{guests.children}</span>
-                  <button
-                    type="button"
-                    onClick={() => setGuests({ ...guests, children: guests.children + 1 })}
-                    className="guest-btn"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              <div className="guest-option">
-                <label>Rooms</label>
-                <div className="guest-controls">
-                  <button
-                    type="button"
-                    onClick={() => setRooms(Math.max(1, rooms - 1))}
-                    className="guest-btn"
-                  >
-                    -
-                  </button>
-                  <span>{rooms}</span>
-                  <button
-                    type="button"
-                    onClick={() => setRooms(rooms + 1)}
-                    className="guest-btn"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-
-        <button type="submit" className="hotelio-search-btn">
-          SEARCH
-        </button>
       </form>
+      <button type="submit" className="hotelio-search-btn">
+        SEARCH
+      </button>
     </div>
   );
 };
