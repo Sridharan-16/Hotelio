@@ -17,7 +17,10 @@ const Navbar = () => {
     <nav className="navbar hotelio-navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          <span className="logo-text">Hotelio</span>
+          <span className="logo-text">
+            <span className="hotelio-h">H</span>
+            <span className="fascinate-regular">otelio</span>
+          </span>
         </Link>
         
         <div className="navbar-right">
