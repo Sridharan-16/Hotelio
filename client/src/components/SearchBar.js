@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaChevronDown } from 'react-icons/fa';
 import './SearchBar.css';
 
-const SearchBar = ({ initialData = {} }) => {
+const SearchBar = ({ initialData = {}, showTitle = false }) => {
   const navigate = useNavigate();
   const [city, setCity] = useState(initialData.city || '');
   const [checkIn, setCheckIn] = useState(initialData.checkIn || null);
@@ -14,6 +14,9 @@ const SearchBar = ({ initialData = {} }) => {
   const [rooms, setRooms] = useState(1);
   const [showGuestSelector, setShowGuestSelector] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(null);
+  const checkinDatePickerRef = useRef(null);
+  const checkoutDatePickerRef = useRef(null);
+  const guestSelectorRef = useRef(null);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -47,26 +50,47 @@ const SearchBar = ({ initialData = {} }) => {
   const minDate = new Date();
   const maxCheckOut = checkIn ? new Date(checkIn.getTime() + 30 * 24 * 60 * 60 * 1000) : null;
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const clickedOutsideCheckin = showDatePicker === 'checkin' && checkinDatePickerRef.current && !checkinDatePickerRef.current.contains(event.target);
+      const clickedOutsideCheckout = showDatePicker === 'checkout' && checkoutDatePickerRef.current && !checkoutDatePickerRef.current.contains(event.target);
+      const clickedOutsideGuest = showGuestSelector && guestSelectorRef.current && !guestSelectorRef.current.contains(event.target);
+      
+      if (clickedOutsideCheckin || clickedOutsideCheckout || clickedOutsideGuest) {
+        setShowDatePicker(null);
+        setShowGuestSelector(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDatePicker, showGuestSelector]);
+
   return (
-      <div>
-      <h2 className="search-title kaushan-script-regular">Hotels and Homestays</h2>
-    <div className="hotelio-search-container">
-      <form onSubmit={handleSearch} className="hotelio-search-bar">
-        <div className="hotelio-search-bar-inner">
-        <div className="search-field hotelio-field">
-          <label>Where to</label>
-          <input
-            type="text"
-            placeholder="e.g. - Area, Landmark or Property Name"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="hotelio-input"
-          />
-        </div>
+    <div>
+      {showTitle && <h2 className="search-title kaushan-script-regular">Hotels and Homestays</h2>}
+      <div className="hotelio-search-container">
+        <form onSubmit={handleSearch} className="hotelio-search-bar">
+          <div className="hotelio-search-bar-inner">
+          <div className="search-field hotelio-field">
+            <label>Where to</label>
+            <input
+              type="text"
+              placeholder="e.g. - Area, Landmark or Property Name"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="hotelio-input"
+            />
+          </div>
 
         <div className="search-field hotelio-field date-field">
           <label>Check-in</label>
-          <div className="date-display" onClick={() => setShowDatePicker('checkin')}>
+          <div className="date-display" onClick={() => {
+            setShowDatePicker('checkin');
+            setShowGuestSelector(false);
+          }}>
             {checkIn ? (
               <>
                 <div className="date-main">{formatDate(checkIn)}</div>
@@ -78,7 +102,7 @@ const SearchBar = ({ initialData = {} }) => {
             <FaChevronDown className="chevron-icon" />
           </div>
           {showDatePicker === 'checkin' && (
-            <div className="date-picker-wrapper">
+            <div className="date-picker-wrapper" ref={checkinDatePickerRef}>
               <DatePicker
                 selected={checkIn}
                 onChange={(date) => {
@@ -97,7 +121,10 @@ const SearchBar = ({ initialData = {} }) => {
 
         <div className="search-field hotelio-field date-field">
           <label>Check-out</label>
-          <div className="date-display" onClick={() => setShowDatePicker('checkout')}>
+          <div className="date-display" onClick={() => {
+            setShowDatePicker('checkout');
+            setShowGuestSelector(false);
+          }}>
             {checkOut ? (
               <>
                 <div className="date-main">{formatDate(checkOut)}</div>
@@ -109,7 +136,7 @@ const SearchBar = ({ initialData = {} }) => {
             <FaChevronDown className="chevron-icon" />
           </div>
           {showDatePicker === 'checkout' && (
-            <div className="date-picker-wrapper">
+            <div className="date-picker-wrapper" ref={checkoutDatePickerRef}>
               <DatePicker
                 selected={checkOut}
                 onChange={(date) => {
@@ -131,13 +158,16 @@ const SearchBar = ({ initialData = {} }) => {
           <label>Guests & Rooms</label>
           <div
             className="guest-display"
-            onClick={() => setShowGuestSelector(!showGuestSelector)}
+            onClick={() => {
+              setShowGuestSelector(!showGuestSelector);
+              setShowDatePicker(null);
+            }}
           >
             {formatGuestsRooms()}
             <FaChevronDown className="chevron-icon" />
           </div>
           {showGuestSelector && (
-            <div className="guest-selector hotelio-guest-selector">
+            <div className="guest-selector hotelio-guest-selector" ref={guestSelectorRef}>
               <div className="guest-option">
                 <label>Adults</label>
                 <div className="guest-controls">

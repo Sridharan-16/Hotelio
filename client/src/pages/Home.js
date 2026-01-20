@@ -136,7 +136,7 @@ const Home = () => {
   return (
     <div className="home hotelio-home">
       <div className="home-hero">
-        <SearchBar />
+        <SearchBar showTitle={true} />
       </div>
       <div className="home-offers">
         <div className="offers-section">

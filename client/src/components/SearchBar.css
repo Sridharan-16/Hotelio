@@ -85,6 +85,10 @@
   position: relative;
 }
 
+.date-field {
+  position: relative;
+}
+
 .date-display {
   padding: 12px;
   border: 1px solid #ddd;
@@ -245,10 +249,5 @@
 
   .hotelio-search-btn {
     width: 100%;
-  }
-
-  .date-picker-wrapper {
-    left: auto;
-    right: 0;
   }
 }

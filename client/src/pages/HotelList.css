@@ -8,12 +8,13 @@
   grid-template-columns: 280px 1fr;
   gap: 32px;
   margin-top: 32px;
+  align-items: start;
 }
 
 .hotels-grid {
   display: grid;
   gap: 24px;
-  height: 400px;
+  padding-right: 8px;
 }
 
 .no-results {
