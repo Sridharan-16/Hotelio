@@ -1,10 +1,40 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, '../uploads/profile-photos');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'profile-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: function (req, file, cb) {
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    cb(null, extname);
+  }
+});
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -145,6 +175,43 @@ router.put('/profile', auth, [
   } catch (error) {
     console.error('Profile update error:', error);
     res.status(500).json({ message: 'Server error during profile update' });
+  }
+});
+
+// @route   POST /api/auth/upload-profile-photo
+// @desc    Upload user profile photo
+router.post('/upload-profile-photo', auth, upload.single('profilePhoto'), async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    const userId = req.user._id;
+    const profilePhotoPath = `/uploads/profile-photos/${req.file.filename}`;
+
+    // Update user with profile photo path
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePhoto: profilePhotoPath },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      message: 'Profile photo uploaded successfully',
+      profilePhoto: profilePhotoPath
+    });
+  } catch (error) {
+    console.error('Profile photo upload error:', error);
+    res.status(500).json({ message: 'Server error during profile photo upload' });
   }
 });
 
