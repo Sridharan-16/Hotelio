@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Help from './pages/Help';
 import Profile from './pages/Profile';
+import Footer from './components/Footer';
 import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
@@ -46,6 +47,7 @@ function App() {
             pauseOnHover
           />
         </div>
+        <Footer/>
       </Router>
     </AuthProvider>
   );

@@ -62,6 +62,22 @@
   font-size: 16px;
 }
 
+.hotels-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.hotels-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .login-btn {
   display: flex;
   align-items: center;
@@ -85,43 +101,115 @@
 }
 
 .navbar-user {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.default-avatar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.default-avatar svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownSlide 0.2s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.user-name {
-  color: white;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
   font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 4px;
   transition: background-color 0.2s ease;
-}
-.user-name:hover{
-  text-decoration: none;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.profileToLink{
-  text-decoration: none;
-}
-.profileToLink:hover{
-  text-decoration: none;
-}
-
-.logout-btn {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  background: none;
+  width: 100%;
+  text-align: left;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
 }
 
-.logout-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-item.dropdown-logout {
+  color: #ff5722;
+  border-top: 1px solid #eee;
+}
+
+.dropdown-item.dropdown-logout:hover {
+  background-color: #fff3e0;
+}
+
+.dropdown-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -130,6 +218,7 @@
   }
 
   .help-link span,
+  .hotels-link span,
   .login-btn span {
     display: none;
   }

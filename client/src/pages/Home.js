@@ -250,21 +250,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      
-
-      <div className="vacation-categories">
-        <div className="container">
-          <div className="categories-list">
-            <a href="/hotels?category=beach" className="category-link">Beach Vacations</a>
-            <a href="/hotels?category=weekend" className="category-link">Weekend Getaways</a>
-            <a href="/hotels?category=mountain" className="category-link">Mountains Calling</a>
-            <a href="/hotels?category=luxury" className="category-link">Stay Like Royals</a>
-            <a href="/hotels?category=pilgrimage" className="category-link">Indian Pilgrimages</a>
-            <a href="/hotels?category=party" className="category-link">Party Destinations</a>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
