@@ -224,7 +224,6 @@ const SearchBar = ({ initialData = {}, showTitle = false }) => {
                     onClick={() => setRooms(rooms + 1)}
                     className="guest-btn"
                   >
-                    +
                   </button>
                 </div>
               </div>

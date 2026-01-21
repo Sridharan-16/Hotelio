@@ -491,9 +491,9 @@
   background-color: #fff3e0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .home-hero {
-    padding: 24px 16px;
+    border-radius: 0%;
   }
 
   .popular-destinations-section {

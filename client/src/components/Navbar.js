@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaUser, FaQuestionCircle, FaChevronDown } from 'react-icons/fa';
+import { FaUser, FaQuestionCircle } from 'react-icons/fa';
 import './Navbar.css';
 
 const Navbar = () => {

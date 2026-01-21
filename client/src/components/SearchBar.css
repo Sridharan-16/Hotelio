@@ -245,9 +245,76 @@
 @media (max-width: 968px) {
   .hotelio-search-bar-inner {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .hotelio-search-container {
+    padding: 20px 16px;
+    margin: 20px 16px;
+  }
+
+  .search-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .hotelio-field {
+    gap: 6px;
+  }
+
+  .hotelio-input,
+  .date-display,
+  .guest-display {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .date-display,
+  .guest-display {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hotelio-search-container {
+    padding: 16px 12px;
+    margin: 16px 12px;
+  }
+
+  .search-title {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .hotelio-field label {
+    font-size: 11px;
+  }
+
+  .hotelio-input,
+  .date-display,
+  .guest-display {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .date-display,
+  .guest-display {
+    min-height: 40px;
   }
 
   .hotelio-search-btn {
-    width: 100%;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .date-picker-wrapper,
+  .hotelio-guest-selector {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: calc(100vw - 24px);
   }
 }
