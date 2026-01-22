@@ -194,7 +194,22 @@ router.post('/upload-profile-photo', auth, upload.single('profilePhoto'), async 
     const userId = req.user._id;
     const profilePhotoPath = `/uploads/profile-photos/${req.file.filename}`;
 
-    // Update user with profile photo path
+    // Get current user to check for old profile photo
+    const currentUser = await User.findById(userId);
+    if (!currentUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Delete old profile photo if it exists
+    if (currentUser.profilePhoto && currentUser.profilePhoto !== profilePhotoPath) {
+      const oldPhotoPath = path.join(__dirname, '..', currentUser.profilePhoto);
+      if (fs.existsSync(oldPhotoPath)) {
+        fs.unlinkSync(oldPhotoPath);
+        console.log('Deleted old profile photo:', currentUser.profilePhoto);
+      }
+    }
+
+    // Update user with new profile photo path
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profilePhoto: profilePhotoPath },
