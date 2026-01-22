@@ -40,6 +40,7 @@
   color: white;
   font-size: 40px;
   font-weight: bolder;
+  margin-top: 22px;
   margin-bottom: 24px;
   text-align: center;
 }
@@ -135,7 +136,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000;
+  z-index: 900; /* Reduced from 1000 to avoid navbar overlap */
   margin-top: 8px;
   background: white;
   border-radius: 8px;
@@ -172,7 +173,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 16px;
-  z-index: 1000;
+  z-index: 900; /* Reduced from 1000 to avoid navbar overlap */
 }
 
 .guest-option {
@@ -258,6 +259,7 @@
 
   .search-title {
     font-size: 32px;
+    margin-top: 17px;
     margin-bottom: 20px;
   }
 
