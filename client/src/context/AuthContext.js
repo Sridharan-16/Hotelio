@@ -74,6 +74,14 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  // Role-based helper functions
+  const isAdmin = () => user?.role === 'admin';
+  const isOwner = () => user?.role === 'owner';
+  const isUser = () => user?.role === 'user';
+  const hasOwnerRequest = () => user?.ownerRequest?.requested;
+  const getOwnerRequestStatus = () => user?.ownerRequest?.status;
+  const isApprovedOwner = () => isOwner() && getOwnerRequestStatus() === 'approved';
+
   const value = {
     user,
     loading,
@@ -81,7 +89,14 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    // Role helpers
+    isAdmin,
+    isOwner,
+    isUser,
+    hasOwnerRequest,
+    getOwnerRequestStatus,
+    isApprovedOwner
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

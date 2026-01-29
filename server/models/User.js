@@ -28,8 +28,36 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'owner', 'admin'],
     default: 'user'
+  },
+  ownerRequest: {
+    requested: {
+      type: Boolean,
+      default: false
+    },
+    requestedAt: {
+      type: Date,
+      default: null
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: null
+    },
+    reviewedAt: {
+      type: Date,
+      default: null
+    },
+    reviewedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null
+    },
+    rejectionReason: {
+      type: String,
+      default: null
+    }
   },
   bookings: [{
     type: mongoose.Schema.Types.ObjectId,

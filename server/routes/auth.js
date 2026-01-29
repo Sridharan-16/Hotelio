@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const { authenticateToken, requireAdmin, requireApprovedOwner } = require('../middleware/roles');
 
 const router = express.Router();
 
@@ -227,6 +228,212 @@ router.post('/upload-profile-photo', auth, upload.single('profilePhoto'), async 
   } catch (error) {
     console.error('Profile photo upload error:', error);
     res.status(500).json({ message: 'Server error during profile photo upload' });
+  }
+});
+
+// @route   POST /api/auth/request-owner-access
+// @desc    Request owner access
+router.post('/request-owner-access', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Check if user already has a pending or approved request
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.role === 'admin') {
+      return res.status(400).json({ message: 'Admin users cannot request owner access' });
+    }
+
+    if (user.role === 'owner' && user.ownerRequest?.status === 'approved') {
+      return res.status(400).json({ message: 'You already have approved owner access' });
+    }
+
+    if (user.ownerRequest?.status === 'pending') {
+      return res.status(400).json({ message: 'You already have a pending owner request' });
+    }
+
+    // Update user with owner request
+    user.ownerRequest = {
+      requested: true,
+      requestedAt: new Date(),
+      status: 'pending',
+      reviewedAt: null,
+      reviewedBy: null,
+      rejectionReason: null
+    };
+
+    await user.save();
+
+    res.json({
+      message: 'Owner access request submitted successfully',
+      status: 'pending',
+      requestedAt: user.ownerRequest.requestedAt
+    });
+  } catch (error) {
+    console.error('Owner request error:', error);
+    res.status(500).json({ message: 'Server error during owner request' });
+  }
+});
+
+// @route   GET /api/auth/owner-requests
+// @desc    Get all owner requests (admin only)
+router.get('/owner-requests', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const { status, page = 1, limit = 10 } = req.query;
+    
+    // Build filter
+    const filter = { 'ownerRequest.requested': true };
+    if (status) {
+      filter['ownerRequest.status'] = status;
+    }
+
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: { 'ownerRequest.requestedAt': -1 },
+      select: '-password'
+    };
+
+    const requests = await User.find(filter)
+      .select('name email role ownerRequest')
+      .sort({ 'ownerRequest.requestedAt': -1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    const total = await User.countDocuments(filter);
+
+    res.json({
+      requests,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error('Get owner requests error:', error);
+    res.status(500).json({ message: 'Server error fetching owner requests' });
+  }
+});
+
+// @route   POST /api/auth/approve-owner-request/:userId
+// @desc    Approve owner request (admin only)
+router.post('/approve-owner-request/:userId', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const adminId = req.user._id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.ownerRequest?.requested) {
+      return res.status(400).json({ message: 'No owner request found for this user' });
+    }
+
+    if (user.ownerRequest.status === 'approved') {
+      return res.status(400).json({ message: 'Owner request already approved' });
+    }
+
+    // Update user role and request status
+    user.role = 'owner';
+    user.ownerRequest.status = 'approved';
+    user.ownerRequest.reviewedAt = new Date();
+    user.ownerRequest.reviewedBy = adminId;
+    user.ownerRequest.rejectionReason = null;
+
+    await user.save();
+
+    res.json({
+      message: 'Owner request approved successfully',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        ownerRequest: user.ownerRequest
+      }
+    });
+  } catch (error) {
+    console.error('Approve owner request error:', error);
+    res.status(500).json({ message: 'Server error approving owner request' });
+  }
+});
+
+// @route   POST /api/auth/reject-owner-request/:userId
+// @desc    Reject owner request (admin only)
+router.post('/reject-owner-request/:userId', [
+  body('rejectionReason').trim().isLength({ min: 1, max: 500 }).withMessage('Rejection reason is required (max 500 characters)')
+], authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { userId } = req.params;
+    const { rejectionReason } = req.body;
+    const adminId = req.user._id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.ownerRequest?.requested) {
+      return res.status(400).json({ message: 'No owner request found for this user' });
+    }
+
+    if (user.ownerRequest.status === 'rejected') {
+      return res.status(400).json({ message: 'Owner request already rejected' });
+    }
+
+    // Update request status (keep role as 'user')
+    user.ownerRequest.status = 'rejected';
+    user.ownerRequest.reviewedAt = new Date();
+    user.ownerRequest.reviewedBy = adminId;
+    user.ownerRequest.rejectionReason = rejectionReason;
+
+    await user.save();
+
+    res.json({
+      message: 'Owner request rejected successfully',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        ownerRequest: user.ownerRequest
+      }
+    });
+  } catch (error) {
+    console.error('Reject owner request error:', error);
+    res.status(500).json({ message: 'Server error rejecting owner request' });
+  }
+});
+
+// @route   GET /api/auth/my-owner-request
+// @desc    Get current user's owner request status
+router.get('/my-owner-request', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('ownerRequest role');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      role: user.role,
+      ownerRequest: user.ownerRequest
+    });
+  } catch (error) {
+    console.error('Get owner request status error:', error);
+    res.status(500).json({ message: 'Server error fetching owner request status' });
   }
 });
 

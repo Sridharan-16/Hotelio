@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaUser, FaQuestionCircle } from 'react-icons/fa';
+import { FaUser, FaQuestionCircle, FaHotel, FaCrown, FaShieldAlt } from 'react-icons/fa';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, isAdmin, isApprovedOwner, hasOwnerRequest, getOwnerRequestStatus } = useAuth();
   const navigate = useNavigate();
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const profileDropdownRef = useRef(null);
@@ -49,6 +49,23 @@ const Navbar = () => {
               <Link to="/hotels" className="hotels-link">
             <span>Hotels</span>
           </Link>
+              
+              {/* Owner Dashboard Link - Only for approved owners */}
+              {isApprovedOwner() && (
+                <Link to="/owner-dashboard" className="owner-link">
+                  <FaHotel className="menu-icon" />
+                  <span>My Hotels</span>
+                </Link>
+              )}
+              
+              {/* Admin Dashboard Link - Only for admins */}
+              {isAdmin() && (
+                <Link to="/admin-dashboard" className="admin-link">
+                  <FaShieldAlt className="menu-icon" />
+                  <span>Admin</span>
+                </Link>
+              )}
+              
               <div className="navbar-user" ref={profileDropdownRef}>
                 <button 
                   className="profile-avatar"
@@ -85,6 +102,27 @@ const Navbar = () => {
                       <FaUser className="dropdown-icon" />
                       <span>My Profile</span>
                     </Link>
+                    
+                    {/* Owner Request Link - Only for regular users without pending/approved requests */}
+                    {!isAdmin() && !hasOwnerRequest() && (
+                      <Link 
+                        to="/request-owner-access" 
+                        className="dropdown-item"
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        <FaCrown className="dropdown-icon" />
+                        <span>Request Owner Access</span>
+                      </Link>
+                    )}
+                    
+                    {/* Owner Request Status - For users with pending/rejected requests */}
+                    {!isAdmin() && hasOwnerRequest() && (
+                      <div className="dropdown-item disabled">
+                        <FaCrown className="dropdown-icon" />
+                        <span>Owner Request: {getOwnerRequestStatus() || 'Pending'}</span>
+                      </div>
+                    )}
+                    
                     <button 
                       className="dropdown-item dropdown-logout"
                       onClick={handleLogout}

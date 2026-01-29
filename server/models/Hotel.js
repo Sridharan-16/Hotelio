@@ -32,6 +32,11 @@ const hotelSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   address: {
     street: { type: String, required: true },
     city: { type: String, required: true },
@@ -80,6 +85,8 @@ const hotelSchema = new mongoose.Schema({
 hotelSchema.index({ name: 'text', description: 'text', 'address.city': 'text' });
 hotelSchema.index({ 'address.city': 1 });
 hotelSchema.index({ rating: -1 });
+hotelSchema.index({ owner: 1 });
+hotelSchema.index({ owner: 1, isActive: 1 });
 
 module.exports = mongoose.model('Hotel', hotelSchema);
 
